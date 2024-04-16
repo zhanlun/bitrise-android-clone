@@ -40,7 +40,7 @@ ENDPOINT="https://api.instabug.com/api/sdk/v3/symbols_files"
 formatted_version=$(echo "${VERSION}" | sed 's/"/\\"/g')
 
 # Now use formatted_version in your curl command
-STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --output /dev/null \
+STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --output response_body.txt \
 -F os=android \
 -F app_version=${formatted_version} \
 -F symbols_file=@"./android/app/build/outputs/mapping/release/mapping.txt" \
@@ -50,6 +50,7 @@ echo "Status: $STATUS"
 
 if [ $STATUS -ne 200 ]; then
   echo "Error while uploading mapping file"
+	cat response_body.txt # Display error message from response body if available
   exit 1
 fi
 
