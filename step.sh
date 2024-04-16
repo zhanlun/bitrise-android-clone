@@ -25,10 +25,10 @@ envman add --key VERSION_NAME --value $VERSION_NAME
 
 VERSION='{"code":"'"$VERSION_CODE"'","name":"'"$VERSION_NAME"'"}'
 
-if [ ! -f $BITRISE_MAPPING_PATH ]; then
-    echo "Mapping file not found. Did you run this step before the build step?"
-    exit 1
-fi
+# if [ ! -f $BITRISE_MAPPING_PATH ]; then
+#     echo "Mapping file not found. Did you run this step before the build step?"
+#     exit 1
+# fi
 
 echo "Mapping file found! Uploading..."
 
@@ -41,7 +41,7 @@ formatted_version=$(echo "${VERSION}" | sed 's/"/\\"/g')
 STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --output /dev/null \
 -F "os=android" \
 -F "app_version=${formatted_version}" \
--F "symbols_file=@${BITRISE_MAPPING_PATH}" \
+-F "symbols_file=@\"./android/app/build/outputs/mapping/release/mapping.txt\"}" \
 -F "application_token=${instabug_app_token}")
 
 echo "Status: $STATUS"
