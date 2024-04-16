@@ -32,6 +32,8 @@ fi
 
 echo "Mapping file found! Uploading..."
 
+echo "BITRISE_MAPPING_PATH $BITRISE_MAPPING_PATH"
+
 ENDPOINT="https://api.instabug.com/api/sdk/v3/symbols_files"
 
 # Escape quotes and encapsulate JSON in single quotes
@@ -41,7 +43,7 @@ formatted_version=$(echo "${VERSION}" | sed 's/"/\\"/g')
 STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --output /dev/null \
 -F os=android \
 -F app_version=${formatted_version} \
--F symbols_file=@${BITRISE_MAPPING_PATH} \
+-F symbols_file=@"./android/app/build/outputs/mapping/release/mapping.txt" \
 -F application_token=${instabug_app_token})
 
 echo "Status: $STATUS"
