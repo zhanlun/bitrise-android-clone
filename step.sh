@@ -41,7 +41,7 @@ formatted_version=$(echo "${VERSION}" | sed 's/"/\\"/g')
 STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --output /dev/null \
 -F "os=android" \
 -F "app_version=${formatted_version}" \
--F "symbols_file=@\"./android/app/build/outputs/mapping/release/mapping.txt\"}" \
+-F "symbols_file=@\"./android/app/build/outputs/mapping/release/mapping.txt\"" \
 -F "application_token=${instabug_app_token}")
 
 echo "Status: $STATUS"
