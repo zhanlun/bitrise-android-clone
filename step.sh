@@ -34,11 +34,15 @@ echo "Mapping file found! Uploading..."
 
 ENDPOINT="https://api.instabug.com/api/sdk/v3/symbols_files"
 
-echo "BITRISE_MAPPING_PATH $BITRISE_MAPPING_PATH"
-echo "instabug_app_token $instabug_app_token"
-echo "curl "${ENDPOINT}" --write-out %{http_code} --silent --output /dev/null -F os=android -F app_version="${VERSION}" -F symbols_file=@"${BITRISE_MAPPING_PATH}" -F application_token="${instabug_app_token}""
+# Escape quotes and encapsulate JSON in single quotes
+formatted_version=$(echo "${VERSION}" | sed 's/"/\\"/g')
 
-STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --silent --output /dev/null -F os=android -F app_version="${VERSION}" -F symbols_file=@"${BITRISE_MAPPING_PATH}" -F application_token="${instabug_app_token}")
+# Now use formatted_version in your curl command
+STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --silent --output /dev/null \
+-F "os=android" \
+-F "app_version=${formatted_version}" \
+-F "symbols_file=@${BITRISE_MAPPING_PATH}" \
+-F "application_token=${instabug_app_token}")
 
 echo "Status: $STATUS"
 
