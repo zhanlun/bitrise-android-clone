@@ -38,7 +38,7 @@ ENDPOINT="https://api.instabug.com/api/sdk/v3/symbols_files"
 formatted_version=$(echo "${VERSION}" | sed 's/"/\\"/g')
 
 # Now use formatted_version in your curl command
-STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --silent --output /dev/null \
+STATUS=$(curl "${ENDPOINT}" --write-out %{http_code} --output /dev/null \
 -F "os=android" \
 -F "app_version=${formatted_version}" \
 -F "symbols_file=@${BITRISE_MAPPING_PATH}" \
